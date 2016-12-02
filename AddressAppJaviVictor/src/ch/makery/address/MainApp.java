@@ -119,7 +119,7 @@ public class MainApp extends Application {
             RootLayoutController controller = loader.getController();
             controller.setMainApp(this);
             Font.loadFont(getClass().getResourceAsStream("../../../resources/font/Philosopher-Regular.ttf"), 20);
-            Font.loadFont(getClass().getResourceAsStream("../../../resources/font/Behind Script.otf"), 20);
+            Font.loadFont(getClass().getResourceAsStream("../../../resources/font/HappyTime.otf"), 20);
 
             primaryStage.show();
         } catch (IOException e) {

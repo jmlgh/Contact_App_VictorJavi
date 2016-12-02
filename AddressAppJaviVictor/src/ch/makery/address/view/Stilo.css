@@ -26,9 +26,10 @@
 }
 
 .label-grid-right{
-	-fx-font-size: 35pt;
-    -fx-font-family: "Behind Script";
+	-fx-font-size: 18pt;
+    -fx-font-family: "Happy Time";
     -fx-font-weight: bold;
+    -fx-font-style: italic;
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
@@ -56,6 +57,7 @@
 
 .table-view {
     -fx-base:  #455A64;
+    -fx-font-size: 15;
     -fx-control-inner-background:  #455A64;
     -fx-background-color: #455A64;
     -fx-table-cell-border-color: transparent;
@@ -89,12 +91,18 @@
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: #607D8B;
+    -fx-background-color: derive(#607D8B, 20%);
+    -fx-font-size: 26;
+}
+
+.table-view:hover .table-row-cell:filled:hover{
+	 -fx-font-size: 20;
+	 -fx-background-color: derive(#607D8B, 20%);
 }
 
 .split-pane:horizontal > .split-pane-divider {
     -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
-    -fx-background-color: transparent, derive(#1d1d1d,20%);
+    -fx-background-color: transparent, derive(#1d1d1d,30%);
 }
 
 .split-pane {
@@ -102,11 +110,11 @@
 }
 
 .menu-bar {
-    -fx-background-color: derive(#1d1d1d,20%);
+    -fx-background-color: derive(#1d1d1d,30%);
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d,50%);
+    -fx-background-color: derive(#1d1d1d,30%);
 }
 
 .menu-bar .label {
@@ -139,7 +147,7 @@
 
 .button:hover {
     -fx-background-color: #E64A19;
-    -fx-text-fill: #212121;
+    -fx-text-fill: #d8d8d8;
     -fx-font-weight: bold;
     
 }
