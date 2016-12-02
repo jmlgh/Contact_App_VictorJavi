@@ -18,7 +18,7 @@
 }
 
 .label-grid{
-	-fx-font-size: 18pt;
+	-fx-font-size: 20pt;
     -fx-font-family: "Philosopher";
     -fx-text-fill: white;
     -fx-opacity: 1;
@@ -26,7 +26,7 @@
 }
 
 .label-grid-right{
-	-fx-font-size: 18pt;
+	-fx-font-size: 20pt;
     -fx-font-family: "Happy Time";
     -fx-font-weight: bold;
     -fx-font-style: italic;
@@ -48,7 +48,7 @@
 }
 
 .label-header {
-    -fx-font-size: 25pt;
+    -fx-font-size: 30pt;
     -fx-font-family: "Philosopher";
     -fx-font-weight: bold;
     -fx-text-fill: white;
@@ -151,14 +151,14 @@
 }
 
 .button:hover {
-    -fx-background-color: #E64A19;
+    -fx-background-color: #455A64;
     -fx-text-fill: #d8d8d8;
     -fx-font-weight: bold;
     
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: white;
+  -fx-background-color: #607D8B;
   -fx-text-fill: #1d1d1d;
   
 }

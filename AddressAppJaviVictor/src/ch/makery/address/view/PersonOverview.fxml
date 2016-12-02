@@ -27,7 +27,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="329.0" prefWidth="417.0" styleClass="background">
                <children>
-                  <ImageView fitHeight="135.0" fitWidth="157.0" layoutX="108.0" layoutY="280.0" opacity="0.38" AnchorPane.bottomAnchor="84.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="167.0" AnchorPane.topAnchor="270.0">
+                  <ImageView fitHeight="294.0" fitWidth="335.0" layoutX="22.0" layoutY="111.0" opacity="0.35" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0">
                      <image>
                         <Image url="@../../../../../resources/images/PLUMAS.png" />
                      </image>
@@ -37,10 +37,10 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <GridPane alignment="CENTER" layoutX="41.0" layoutY="78.0" prefHeight="219.0" prefWidth="469.0" styleClass="label-grid" stylesheets="@Stilo.css">
+                  <GridPane alignment="CENTER" layoutX="110.0" layoutY="100.0" prefHeight="219.0" prefWidth="469.0" styleClass="label-grid" stylesheets="@Stilo.css">
                     <columnConstraints>
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="200.0" />
+                      <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="269.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -67,7 +67,7 @@
                   </GridPane>
                   <HBox layoutX="209.0" layoutY="259.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="25.0">
                      <children>
-                        <Button layoutX="209.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleNewPerson" text="   New..." textAlignment="RIGHT">
+                        <Button layoutX="209.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleNewPerson" prefHeight="44.0" prefWidth="155.0" text="  New..." textAlignment="RIGHT">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="37.0" opacity="0.89">
                                  <image>
@@ -79,7 +79,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="265.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleEditPerson" text="  Edit..." textAlignment="RIGHT">
+                        <Button layoutX="265.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleEditPerson" prefWidth="155.0" text="  Edit..." textAlignment="RIGHT">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.89">
                                  <image>
@@ -90,7 +90,7 @@
                                  </effect>
                               </ImageView>
                            </graphic></Button>
-                        <Button layoutX="318.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleDeletePerson" text="   Delete" textAlignment="RIGHT">
+                        <Button layoutX="318.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefWidth="155.0" text="   Delete" textAlignment="RIGHT">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="30.0" opacity="0.89">
                                  <image>
