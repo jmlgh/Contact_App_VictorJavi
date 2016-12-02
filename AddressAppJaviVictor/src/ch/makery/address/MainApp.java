@@ -8,25 +8,41 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
+
 import ch.makery.address.control.BirthdayStatisticsController;
 import ch.makery.address.control.PersonEditDialogController;
 import ch.makery.address.control.RootLayoutController;
 import ch.makery.address.model.Person;
 import ch.makery.address.model.PersonListWrapper;
 import ch.makery.address.view.PersonOverviewController;
+import javafx.animation.FadeTransition;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /*
  * 
@@ -46,10 +62,125 @@ Al final del mï¿½todo initRootLayout() se intenta obtener el ï¿½ltimo archivo de
 
 
 public class MainApp extends Application {
+	
 
-    private Stage primaryStage;
+    private Stage primaryStage=new Stage();
     private BorderPane rootLayout;
-    
+    public static final String APPLICATION_ICON =
+            "http://cdn1.iconfinder.com/data/icons/Copenhagen/PNG/32/people.png";
+    public static final String SPLASH_IMAGE =
+            "http://fxexperience.com/wp-content/uploads/2010/06/logo.png";
+
+    private Pane splashLayout;
+    private ProgressBar loadProgress;
+    private Label progressText;
+    private static final int SPLASH_WIDTH = 676;
+    private static final int SPLASH_HEIGHT = 227;
+
+
+    @Override
+    public void init() {
+        ImageView splash = new ImageView(new Image(
+                SPLASH_IMAGE
+        ));
+        loadProgress = new ProgressBar();
+        loadProgress.setPrefWidth(SPLASH_WIDTH - 20);
+        progressText = new Label("Will find friends for peanuts . . .");
+        splashLayout = new VBox();
+        splashLayout.getChildren().addAll(splash, loadProgress, progressText);
+        progressText.setAlignment(Pos.CENTER);
+        splashLayout.setStyle(
+                "-fx-padding: 5; " +
+                "-fx-background-color: cornsilk; " +
+                "-fx-border-width:5; " +
+                "-fx-border-color: " +
+                    "linear-gradient(" +
+                        "to bottom, " +
+                        "chocolate, " +
+                        "derive(chocolate, 50%)" +
+                    ");"
+        );
+        splashLayout.setEffect(new DropShadow());
+    }
+
+    @Override
+    public void start(final Stage initStage) throws Exception {
+        final Task<ObservableList<String>> friendTask = new Task<ObservableList<String>>() {
+            @Override
+            protected ObservableList<String> call() throws InterruptedException {
+                ObservableList<String> foundFriends =
+                        FXCollections.<String>observableArrayList();
+                ObservableList<String> availableFriends =
+                        FXCollections.observableArrayList(personString);
+
+                updateMessage("Finding friends . . .");
+                for (int i = 0; i < availableFriends.size(); i++) {
+                    Thread.sleep(400);
+                    updateProgress(i + 1, availableFriends.size());
+                    String nextFriend = availableFriends.get(i);
+                    foundFriends.add(nextFriend);
+                    updateMessage("Finding friends . . . found " + nextFriend);
+                }
+                Thread.sleep(400);
+                updateMessage("All friends found.");
+
+                return foundFriends;
+            }
+        };
+
+        showSplash(
+                initStage,
+                friendTask,
+                () -> showMainStage(primaryStage)
+        );
+        new Thread(friendTask).start();
+    }
+
+    private void showMainStage(Stage primaryStage) {       
+    	this.primaryStage = primaryStage;
+	    this.primaryStage.setTitle("Contacts");
+	    this.primaryStage.getIcons().add(new Image("file:resources/images/iconagenda.png"));
+
+	    initRootLayout();
+	
+	    showPersonOverview();
+    }
+
+    private void showSplash(
+            final Stage initStage,
+            Task<?> task,
+            InitCompletionHandler initCompletionHandler
+    ) {
+        progressText.textProperty().bind(task.messageProperty());
+        loadProgress.progressProperty().bind(task.progressProperty());
+        task.stateProperty().addListener((observableValue, oldState, newState) -> {
+            if (newState == Worker.State.SUCCEEDED) {
+                loadProgress.progressProperty().unbind();
+                loadProgress.setProgress(1);
+                initStage.toFront();
+                FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+                fadeSplash.setFromValue(1.0);
+                fadeSplash.setToValue(0.0);
+                fadeSplash.setOnFinished(actionEvent -> initStage.hide());
+                fadeSplash.play();
+
+                initCompletionHandler.complete();
+            } // todo add code to gracefully handle other task states.
+        });
+
+        Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
+        final Rectangle2D bounds = Screen.getPrimary().getBounds();
+        initStage.setScene(splashScene);
+        initStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - SPLASH_WIDTH / 2);
+        initStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - SPLASH_HEIGHT / 2);
+        initStage.initStyle(StageStyle.TRANSPARENT);
+        initStage.setAlwaysOnTop(true);
+        initStage.show();
+    }
+
+    public interface InitCompletionHandler {
+        void complete();
+    }
     
     // ... AFTER THE OTHER VARIABLES ...
 
@@ -57,21 +188,32 @@ public class MainApp extends Application {
      * The data as an observable list of Persons.
      */
     private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private ObservableList<String> personString = FXCollections.observableArrayList();
 
     /**
      * Constructor
      */
     public MainApp() {
         // Add some sample data
-        personData.add(new Person("Hans", "Muster"));
-        personData.add(new Person("Ruth", "Mueller"));
-        personData.add(new Person("Heinz", "Kurz"));
-        personData.add(new Person("Cornelia", "Meier"));
-        personData.add(new Person("Werner", "Meyer"));
-        personData.add(new Person("Lydia", "Kunz"));
-        personData.add(new Person("Anna", "Best"));
-        personData.add(new Person("Stefan", "Meier"));
-        personData.add(new Person("Martin", "Mueller"));
+        personData.add(new Person("Miguel", "Martín"));
+        personData.add(new Person("Miguel", "Contreras"));
+        personData.add(new Person("Javier", "Panduro"));
+        personData.add(new Person("Javier", "Martinez"));
+        personData.add(new Person("Javier", "Angulo"));
+        personData.add(new Person("Javier", "Lozano"));
+        personData.add(new Person("Alberto", "Perez"));
+        personData.add(new Person("Aaron", "Encinas"));
+        personData.add(new Person("Victor", "Munoz"));
+        personString.add("Miguel Martín");
+        personString.add("Miguel Contreras");
+        personString.add("Javier Panduro");
+        personString.add("Javier Martinez");
+        personString.add("Javier Angulo");
+        personString.add("Javier Lozano");
+        personString.add("Alberto Perez");
+        personString.add("Aaron Encinas");
+        personString.add("Victor Munoz");
+        
     }
 
     /**
@@ -84,19 +226,7 @@ public class MainApp extends Application {
 
     // ... THE REST OF THE CLASS ...
     
-    
-    
-
-    @Override
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Contacts");
-        this.primaryStage.getIcons().add(new Image("file:resources/images/iconagenda.png"));
-
-        initRootLayout();
-
-        showPersonOverview();
-    }
+ 
 
     /**
      * Initializes the root layout and tries to load the last opened
