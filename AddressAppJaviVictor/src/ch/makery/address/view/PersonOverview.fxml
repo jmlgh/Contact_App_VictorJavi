@@ -32,7 +32,6 @@
                         <Image url="@../../../../../resources/images/PLUMAS.png" />
                      </image>
                   </ImageView>
-
                   <Label alignment="TOP_CENTER" contentDisplay="TOP" layoutX="14.0" layoutY="14.0" prefHeight="299.0" prefWidth="417.0" styleClass="label-header" stylesheets="@Stilo.css" text="Person Details" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="15.0">
                      <font>
                         <Font name="System Bold" size="20.0" />

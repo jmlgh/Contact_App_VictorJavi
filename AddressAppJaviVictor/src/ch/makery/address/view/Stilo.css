@@ -97,6 +97,7 @@
 
 .table-view:hover .table-row-cell:filled:hover{
 	 -fx-font-size: 20;
+	 -fx-cursor: hand;
 	 -fx-background-color: derive(#607D8B, 20%);
 }
 
@@ -122,6 +123,10 @@
     -fx-font-family: "Philosopher";
     -fx-text-fill: white;
     -fx-opacity: 1;
+}
+
+.menu_item:hover{
+	-fx-background-color: #455A64;
 }
 
 .menu .left-container {
