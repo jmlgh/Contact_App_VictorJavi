@@ -69,12 +69,12 @@ public class MainApp extends Application {
     public static final String APPLICATION_ICON =
             "http://cdn1.iconfinder.com/data/icons/Copenhagen/PNG/32/people.png";
     public static final String SPLASH_IMAGE =
-            "http://fxexperience.com/wp-content/uploads/2010/06/logo.png";
+            "http://zonatresite.blob.core.windows.net/images/2015/09/07/plumas_fuente_02.jpg";
 
     private Pane splashLayout;
     private ProgressBar loadProgress;
     private Label progressText;
-    private static final int SPLASH_WIDTH = 676;
+    private static final int SPLASH_WIDTH = 640;
     private static final int SPLASH_HEIGHT = 227;
 
 
@@ -85,7 +85,7 @@ public class MainApp extends Application {
         ));
         loadProgress = new ProgressBar();
         loadProgress.setPrefWidth(SPLASH_WIDTH - 20);
-        progressText = new Label("Will find friends for peanuts . . .");
+        progressText = new Label("Will find contacts . . .");
         splashLayout = new VBox();
         splashLayout.getChildren().addAll(splash, loadProgress, progressText);
         progressText.setAlignment(Pos.CENTER);
@@ -113,16 +113,16 @@ public class MainApp extends Application {
                 ObservableList<String> availableFriends =
                         FXCollections.observableArrayList(personString);
 
-                updateMessage("Finding friends . . .");
+                updateMessage("Finding contacts . . .");
                 for (int i = 0; i < availableFriends.size(); i++) {
                     Thread.sleep(400);
                     updateProgress(i + 1, availableFriends.size());
                     String nextFriend = availableFriends.get(i);
                     foundFriends.add(nextFriend);
-                    updateMessage("Finding friends . . . found " + nextFriend);
+                    updateMessage("Finding contacts . . . found " + nextFriend);
                 }
                 Thread.sleep(400);
-                updateMessage("All friends found.");
+                updateMessage("All contacts found.");
 
                 return foundFriends;
             }
